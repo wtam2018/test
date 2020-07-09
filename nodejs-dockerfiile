@@ -1,9 +1,10 @@
 # Install the app dependencies in a full Node docker image
 FROM node:12
-USER node
 WORKDIR /usr/src/app
-COPY --chown=node:node package.json .
-
+COPY package.json .
+RUN chown node:node /usr/src/app/package.json
+    chmod 744 /usr/src/app/package.json
+USER node
 
 RUN npm install
 # If you are building your code for production
