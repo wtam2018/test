@@ -1,19 +1,26 @@
 # Install the app dependencies in a full Node docker image
 FROM node:12
-WORKDIR /usr/src/app
-COPY package.json .
-RUN chown node:node /usr/src/app/package.json
+
+COPY . /project/
+
+# Removing node_modules
+RUN rm -rf /project/node_modules
+
+# Install user-app dependencies
+WORKDIR /project
+RUN npm install --production 
+
+# Copy the dependencies into a slim Node docker image
+FROM node:12-slim
+
+# Copy project with dependencies
+COPY --chown=node:node --from=0 /project /project
 RUN ["chmod", "644", "package.json"]
-USER node
+WORKDIR /project
 
-RUN npm install
-# If you are building your code for production
-RUN npm ci --only=production
-
-# Bundle app source
-COPY --chown=node:node . .
+ENV NODE_ENV production
 
 USER node
-CMD [ "npm", "start" ]
 
+CMD ["npm", "start"]
 
