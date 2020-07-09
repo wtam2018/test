@@ -14,7 +14,7 @@ RUN npm install --production
 FROM node:12-slim
 
 # Copy project with dependencies
-COPY --chown=node:node /project /project
+COPY --chown=node:node . . 
 
 WORKDIR /project
 
