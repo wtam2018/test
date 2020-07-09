@@ -1,9 +1,11 @@
-FROM node:12-slim
-USER node
-RUN mkdir -p /home/node/app
-WORKDIR /home/node/app
+# Install the app dependencies in a full Node docker image
+FROM node:12
 
-COPY --chown=node:node package.json .
-COPY --chown=node:node . .
+COPY . /project/
 
-CMD [ "node", "start" ]
+# Removing node_modules
+RUN rm -rf /project/node_modules
+
+# Install user-app dependencies
+WORKDIR /project
+RUN npm install --production 
