@@ -17,6 +17,7 @@ FROM node:12-slim
 COPY  --from=0 /project /project
 
 RUN chown node:node /project
+RUN chown node:node /project/package.json
 
 WORKDIR /project
 
