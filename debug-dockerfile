@@ -15,7 +15,7 @@ FROM node:12-slim
 
 # Copy project with dependencies
 COPY --chown=node:node --from=0 /project /project
-RUN ["/busybox/chmod", "-R", "755", "/project"]
+# RUN ["/busybox/chmod", "-R", "755", "/project"]
 WORKDIR /project
 
 ENV NODE_ENV production
